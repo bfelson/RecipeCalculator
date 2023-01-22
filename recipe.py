@@ -2,6 +2,7 @@ import requests
 import numpy as np
 from bs4 import BeautifulSoup
 import pandas as pd
+from database import Ingredient, add_ingredient
 
 def getIngredientPrice(ingredient):
     price = 0.0

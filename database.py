@@ -16,19 +16,26 @@ class Ingredient(Base):
     cost = Column(Float)
     unit_cost = Column(Float)
 
+    def __init__(self, name, quantity, unit, cost):
+        self.name = name
+        self.quantity = quantity
+        self.unit = unit
+        self.cost = cost
+        self.unit_cost = cost/unit
+
 Base.metadata.create_all(engine)
 
-#Input test ingredients
-flour = Ingredient(name='flour', quantity = 1, unit = "quart", cost = 5.0)
-
-ingredients = [flour]
-
 #Open database session
-from sqlalchemy.orm import sessionmaker
+def open_session():
+    from sqlalchemy.orm import sessionmaker
 
-Session = sessionmaker(bind=engine)
-session = Session()
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    return session
 
-session.add(flour)
+def add_ingredient(ingredient):
+    session = open_session()
+    session.add(ingredient)
+    session.commit()
+    session.close()
 
-session.commit()
